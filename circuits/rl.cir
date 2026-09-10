@@ -1,0 +1,6 @@
+* RL circuit
+V1 in 0 1
+R1 in out 1k
+L1 out 0 1m
+.TRAN 1e-7 0.00001
+.END

@@ -1,0 +1,7 @@
+* RLC circuit
+V1 in 0 1
+R1 in out 10
+L1 out mid 1m
+C1 mid 0 1u
+.TRAN 1e-7 0.001
+.END

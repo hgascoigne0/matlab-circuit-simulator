@@ -1,0 +1,12 @@
+* LC oscillator followed by RC low-pass filter
+
+V1 in 0 1
+R1 in out 0.01
+L1 out mid 1m
+C1 mid 0 1u IC=1
+
+R2 mid filtered 1k
+C2 filtered 0 100n
+
+.TRAN 1e-7 0.002
+.END
