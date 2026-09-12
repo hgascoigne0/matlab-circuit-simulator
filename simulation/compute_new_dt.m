@@ -2,7 +2,7 @@ function new_dt = compute_new_dt(old_dt, error_factor, method)
 
     damping_factor = 0.9;
     min_dt = 1e-12;
-    max_dt = 1e-4;
+    max_dt = 1e-3;
     max_increase_factor = 2.0;
 
     % Get integration order

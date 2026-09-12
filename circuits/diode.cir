@@ -1,0 +1,7 @@
+* Diode transient circuit
+V1 in 0 1
+R1 in out 1k
+D1 out 0
+C1 out 0 1u
+.TRAN 1e-6 0.01
+.END

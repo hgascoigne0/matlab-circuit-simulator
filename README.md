@@ -9,10 +9,10 @@ The project was developed to explore the numerical methods used in transient cir
 * Modified Nodal Analysis (MNA)
 * Backward Euler and trapezoidal time integration
 * Adaptive timestep control using step-doubling error estimation
-* Resistor, capacitor, inductor, and voltage source models
+* Nonlinear device simulation using Newton–Raphson iteration
+* Resistor, capacitor, inductor, voltage source and diode models
 * SPICE-style netlist parsing
-* Analytical validation for RC, RL, and RLC circuits
-* Convergence analysis of the numerical solution
+* Analytical validation and numerical convergence analysis
 
 ## Numerical methods
 
@@ -24,19 +24,27 @@ The simulator formulates the circuit equations using Modified Nodal Analysis. Dy
 
 For adaptive simulation, local error is estimated using step doubling: one full timestep is compared with two half timesteps. The timestep is reduced when the estimated error exceeds the specified tolerance and increased when the solution can be advanced safely with a larger step.
 
-## Validation
+### Nonlinear Devices
 
-The simulator is validated against analytical solutions for standard transient circuits:
+The simulator supports nonlinear devices through Newton–Raphson iteration. A diode is currently implemented using the Shockley diode equation,
 
-* **RC circuit** — capacitor charging
-* **RL circuit** — inductor current rise
-* **RLC circuit** — underdamped transient response
+$$
+I_D = I_S\left(e^{V_D/(nV_T)} - 1\right)
+$$
 
-For each circuit, the numerical solution is compared with the corresponding analytical solution and the maximum voltage and current errors are calculated.
+At each Newton iteration, the diode is linearized around the current voltage estimate and represented as an equivalent conductance and current source in the MNA system. The process is repeated until the solution converges.
 
-The RLC circuit is also used to compare fixed and adaptive timestep simulation. Adaptive stepping achieves comparable accuracy while requiring substantially fewer timesteps.
+A diode transient test circuit is included in `circuits/diode.cir`.
 
-A convergence test using fixed-timestep Backward Euler shows the expected first-order convergence: halving the timestep approximately halves the numerical error, with the measured convergence order approaching 1.
+
+### Validation
+
+The simulator is validated using RC, RL, and RLC circuits with known analytical solutions. Numerical convergence is also evaluated by progressively reducing the timestep. For the RLC circuit, the measured convergence order for Backward Euler is approximately 1, consistent with its expected first-order accuracy.
+
+Adaptive timestep control automatically adjusts the timestep according to the estimated local error while maintaining good agreement with the analytical solution.
+
+A nonlinear RC-diode transient circuit is also included to validate Newton–Raphson iteration. The simulated capacitor voltage rises toward the diode's forward-voltage operating point, and the nonlinear solve converges within a small number of iterations per timestep.
+
 
 ## Project structure
 

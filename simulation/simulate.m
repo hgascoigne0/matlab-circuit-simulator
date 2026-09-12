@@ -9,6 +9,7 @@ function [time, solutions, dt_history] = simulate(circuit, t_end, dt, method, ad
     end
 
     state = initialize_state(circuit);
+    newton_iterations = [];
 
     time = 0;
     solutions = state.x;
@@ -54,8 +55,10 @@ function [time, solutions, dt_history] = simulate(circuit, t_end, dt, method, ad
             else
             
                 % Fixed timestep: take exactly one step
-                x_new = take_step( ...
+                [x_new, iterations] = take_step( ...
                     circuit, state, dt_current, current_method);
+
+                newton_iterations(end+1) = iterations;
             
                 error_factor = 0;
             

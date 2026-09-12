@@ -101,6 +101,19 @@ function circuit = parse_netlist(filename)
                end
 
                elements(end+1) = element;
+
+           case 'D'
+               if length(tokens) < 3
+                   error("Invalid diode definition: %s", line);
+               end
+               element.type = "D";
+               element.name = name;
+               element.n1 = tokens{2};
+               element.n2 = tokens{3};
+               element.value = [];
+               element.branch_index = [];
+               element.initial_cond = [];
+               elements(end+1) = element;
            
            case '.'
                if strcmpi(name, '.TRAN')

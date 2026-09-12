@@ -75,16 +75,7 @@ function [A, b] = assemble_mna(circuit, state, dt, method, x_guess)
                 V = 0;
 
                 if n1 ~= 0
-                    V = V + x_guess(n1);
-                end
-
-                if n2 ~= 0
-                    V = V - x_guess(n2);
-                end
-
-                [A_local, b_local] = diode(V);
-
-                indices = [n1, n2];
+                    V = V + x_guess
 
             otherwise
                 error("Unknown element type: %s", element.type);

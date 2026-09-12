@@ -191,6 +191,8 @@ legend( ...
     "Analytical");
 grid on;
 
+saveas(gcf, "rlc_voltage.png");
+
 
 %% Plot current
 
@@ -221,6 +223,8 @@ ylabel("Timestep (s)");
 title("RLC Circuit - Adaptive Timestep");
 grid on;
 
+saveas(gcf, "adaptive_timestep.png");
+
 %% Convergence test
 
 dt_values = [1e-7, 5e-8, 2.5e-8, 1.25e-8];
@@ -250,7 +254,23 @@ figure;
 
 loglog(dt_values, voltage_errors, "o-");
 
-xlabel("Timestep (s)");
+xlabel("Timestep (s)");   
 ylabel("Maximum voltage error (V)");
 title("RLC Circuit - Backward Euler Convergence");
+grid on;
+
+saveas(gcf, "convergence.png");
+
+%% Diode Circuit
+
+circuit = parse_netlist("circuits/diode.cir");
+
+[time, solutions] = simulate( ...
+    circuit, circuit.tstop, circuit.dt, @backward_euler, false);
+
+figure;
+plot(time, solutions(2, :));
+xlabel("Time [s]");
+ylabel("Diode voltage [V]");
+title("Diode transient response");
 grid on;
